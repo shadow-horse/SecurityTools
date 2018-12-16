@@ -31,4 +31,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.yanzhenjie.andserver:api:2.0.2'
+    annotationProcessor 'com.yanzhenjie.andserver:processor:2.0.1'
+    implementation 'org.apache.commons:commons-lang3:3.6'
+    implementation 'com.alibaba:fastjson:1.2.30'
 }
