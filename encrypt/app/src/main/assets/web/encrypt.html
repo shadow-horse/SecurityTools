@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SO加密解密</title>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no">
+    <link rel="stylesheet" href="./css/main.css">
+    <script language="javascript" type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+
+</head>
+<body>
+
+<div class="page_header"><h1>SO在线加密解密  <small>encode & decode</small></h1></div>
+
+<div class="alert"><span class="close">x</span><span id="msg"></span></div>
+
+<div class="panel"><div class="panel_body">
+    <form class="form_default">
+        <div class="group">
+            <label for="source" style="display: block;">加密前字符串</label>
+            <textarea id="source" name="source" rows="5"></textarea>
+        </div>
+
+        <div class="group">
+            <button type="button" id = "vbaseencode" class="btn_primary">Base64 Encode</button>
+
+        </div>
+        <div class="group">
+            <button type="button" id = "vbasedecode" class="btn_danger">Base64 Decode</button>
+
+        </div>
+    </form>
+</div></div>
+<div class="panel"><div class="panel_body">
+    <form class="form_default">
+        <div class="group">
+            <label for="result" style="display: block;">结果</label>
+            <textarea id="result" name="result" rows="5"></textarea>
+        </div>
+    </form>
+</div></div>
+</body>
+<script>
+
+    //通过jQuery监听事件，发送请求至服务端
+
+    //vivo类base64编码
+
+    $("#vbaseencode").on("click",function (event){
+        var value = $("#source").val();
+        if(value == null){
+            value = "";
+        }
+        $.ajax({
+            type:'get',
+            url:'/encrypt/vbase64encry',
+            data:{str:value},
+            success:function(data){
+                var jsonString = JSON.stringify(data);
+                var jsonData = JSON.parse(jsonString);
+                var textValue = jsonData.data;
+                $("#result").val(textValue);
+                console.log(data);
+            },
+            error:function(ajaxobj){
+                console.log("error");
+            }
+        });
+    });
+
+    $("#vbasedecode").on("click",function(event){
+        var value = $("#source").val();
+        if(value == null){
+            value = "";
+        }
+        $.ajax({
+            type:'get',
+            url:'/encrypt/vbase64decry',
+            data:{str:value},
+            success:function(data){
+                var jsonString = JSON.stringify(data);
+                var jsonData = JSON.parse(jsonString);
+                var textValue = jsonData.data;
+                $("#result").val(textValue);
+                console.log(data);
+            },
+            error:function(ajaxobj){
+                console.log("error");
+            }
+        });
+    });
+</script>
+</html>

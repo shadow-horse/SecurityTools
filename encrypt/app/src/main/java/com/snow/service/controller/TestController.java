@@ -74,6 +74,15 @@ class TestController {
         return userInfo;
     }
 
+    //测试注销
+    @GetMapping(path = "/logout",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    String logout(HttpResponse response,@CookieValue("account") String account)
+    {
+        Cookie cookie = new Cookie("account","");
+        response.addCookie(cookie);
+        return "Logout successful";
+    }
+    
     @PostMapping(path = "/upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     String upload(@RequestParam(name = "header") MultipartFile file) throws IOException {
         File localFile = FileUtils.createRandomFile(file);
