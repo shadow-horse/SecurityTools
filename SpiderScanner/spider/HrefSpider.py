@@ -4,6 +4,7 @@
 import requests
 from bs4 import BeautifulSoup
 from _socket import timeout
+from spider.DynamicSpider import DynamicSpider
 class HrefSpider:
     '''
     初始化参数
@@ -20,6 +21,7 @@ class HrefSpider:
             #判断是否HttpError
             res.raise_for_status()
             res.encoding = res.apparent_encoding
+            print(res.text)
             return res.text
         except:
             print("getHtmlText 产生异常")
@@ -43,9 +45,14 @@ class HrefSpider:
     
 if __name__ == "__main__":
     spider = HrefSpider();
-    spider.setUrl("https://www.cnblogs.com/huwt")
+    spider.setUrl("https://weibo.com/")
     result = spider.getHrefs()
     for a in result:
         print(a)
+    print("================================")
+    dspider = DynamicSpider();
+    dspider.setUrl("https://weibo.com/")
+    result = dspider.getAsynHtmltext()
+    print(result)
     print("spider end.")
 
