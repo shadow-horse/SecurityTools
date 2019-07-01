@@ -40,7 +40,7 @@ class DynamicSpider:
         self.requestlists = self.browser.get_log('browser')
         
     def getHtmltext(self):
-        return self.pageresource
+        return self.pagesource
     
     '''
     获取request list，处理数据格式，获取有效的请求
