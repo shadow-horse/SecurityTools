@@ -13,5 +13,12 @@ https://weibo.com/
 5. 安装phantomjs,设置环境变量，代码中设置路径 
 6. pip install requests
 
+### 3. 爬虫获取的链接
+
+1. 页面异步加载时发起的请求  
+2. 页面<a href="" />的请求 
+3. 
+
+
 
 
