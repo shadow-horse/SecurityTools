@@ -2,6 +2,7 @@
 
 """爬虫：爬取Href属性的链接"""
 import requests
+import json
 from bs4 import BeautifulSoup
 from _socket import timeout
 from spider.DynamicSpider import DynamicSpider
@@ -21,7 +22,6 @@ class HrefSpider:
             #判断是否HttpError
             res.raise_for_status()
             res.encoding = res.apparent_encoding
-            print(res.text)
             return res.text
         except:
             print("getHtmlText 产生异常")
@@ -44,15 +44,16 @@ class HrefSpider:
         return self.list
     
 if __name__ == "__main__":
-    spider = HrefSpider();
-    spider.setUrl("https://weibo.com/")
-    result = spider.getHrefs()
-    for a in result:
-        print(a)
+#     spider = HrefSpider();
+#     spider.setUrl("https://weibo.com/")
+#     result = spider.getHrefs()
+#     for a in result:
+#         print(a)
     print("================================")
     dspider = DynamicSpider();
     dspider.setUrl("https://weibo.com/")
-    result = dspider.getAsynHtmltext()
-    print(result)
-    print("spider end.")
-
+    dspider.loadAsynHtml()
+    result = dspider.getRequestlists()
+    for data in result:
+        print(data)
+    
