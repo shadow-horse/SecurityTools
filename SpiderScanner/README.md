@@ -10,7 +10,7 @@ https://weibo.com/
 2. pip isntall selenium 模拟浏览器  
 3. pip install beautifulsoup4
 4. pip install lxml
-5. pip install selenium 
+5. 安装phantomjs,设置环境变量，代码中设置路径 
 6. pip install requests
 
 
