@@ -41,7 +41,7 @@ class HrefSpider:
         for a in a_hrefs:
             self.hreflist.append(a.get('href'))
         
-        self.hreflist = self.fillUrls(self.hreflist)                    
+        self.hreflist = self.formatGetUrl(self.fillUrls(self.hreflist))                    
         return self.hreflist
     '''
     获取src属性链接
@@ -80,7 +80,23 @@ class HrefSpider:
                     l = host_urlparse.scheme + "://" +host_urlparse.netloc + host_urlparse.path + l    
             hlist.append(l)
         return hlist
-    
+    '''
+    格式化爬起的URL
+    '''
+    def formatGetUrl(self,lists):
+        #href,src链接基本都是GET请求
+        urlinfo = []
+        i = 1
+        for l in lists:
+            oneurl = {}
+            oneurl['id'] = i
+            oneurl['method'] = 'GET'
+            oneurl['url'] = l
+            oneurl['postdata'] = ''
+            urlinfo.append(oneurl)
+            i = i+1
+        return urlinfo
+        
 if __name__ == "__main__":
     spider = HrefSpider();
     spider.setUrl("https://weibo.com/")
