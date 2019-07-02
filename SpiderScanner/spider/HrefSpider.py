@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from _socket import timeout
 from spider.DynamicSpider import DynamicSpider
-
+from tools import Deldump
 
 class HrefSpider:
     '''
@@ -98,6 +98,7 @@ class HrefSpider:
         return urlinfo
         
 if __name__ == "__main__":
+    #静态页面访问
     spider = HrefSpider();
     spider.setUrl("https://weibo.com/")
     spider.getHtmlText()
@@ -105,18 +106,26 @@ if __name__ == "__main__":
     for a in result:
         print(a)
     print("================================")
-    
+    #等待动态Ajax加载，获取发出的请求
     dspider = DynamicSpider();
     dspider.setUrl("https://weibo.com/")
     dspider.loadAsynHtml()
+    dreqlist = dspider.getRequestlists()
+    
+    #页面加载完成后，静态解析页面，爬取链接
     restext = dspider.getHtmltext()
     spider.setHtmltext(restext)
-    result = spider.getHrefs()
-    for a in result:
-        print(a)
+    dhreflist = spider.getHrefs()
     print("================================")
     
-    result = dspider.getRequestlists()
-    for data in result:
-        print(data)
+    #合并两部分内容
+    reqlist = []
+    for a in dhreflist:
+        reqlist.append(a)
+    for a in dreqlist:
+        reqlist.append(a)    
+    delDump = Deldump.Deldump()
+    result = delDump.deldumpurls(reqlist)
+    for data in result.keys():
+        print("%s : %s" % (data,result[data]))
     print('execute end.')
