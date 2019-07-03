@@ -23,5 +23,51 @@ https://weibo.com/
 6. 事件点击触发的Ajax请求 
 
 
+### 4. DOM XSS环境搭建
+1. document.write直接输出导致的XSS
+	
+		document.write("<P>"+domxss1 + "</p>");
+		document.write("<a href=\"" +domxss1 + "\">超链接</a>");
+
+2. 使用innerHTML输出导致XSS
+
+		document.getElementById("domxss2").innerHTML="<p>"+domxss2+"</p>";
+
+3. 使用location/location.href/location.replace/iframe.src造成的XSS  
+
+		location.href=domxss3;  
+	
+4. setTimeout/setInterval造成的XSS
+
+		setTimeout("showText('"+domxss4+"')",2000);
+		
+整理的API： 
+
+	document.location
+	document.URL
+	document.URLUnencoded
+	document.referrer
+	window.location
+	
+	document.write()
+	document.writeln()
+	document.boby.innerHtml
+	eval()
+	window.execScript()
+	window.setInterval()
+	window.setTimeout()
+	
+	document.location
+	document.URL
+	document.open()
+	window.location.href
+	window.navigate()
+	window.open
+	
+	
+
+
+
+
 
 
