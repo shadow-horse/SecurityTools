@@ -17,11 +17,31 @@ https://weibo.com/
 
 1. 页面异步加载时发起的请求  
 2. 页面href="" 的请求 
+
+		<link rel="stylesheet" type="text/css" href="theme.css" />
+		<a href="" />
+		
+	
 3. 页面src属性值 
+	
+		<audio src="someaudio.wav"> 
+		<script src=”“ />
+		<source src="horse.ogg" type="audio/ogg">  
+		<embed src="helloworld.swf" /> 
+		<frame src="frame_a.htm" /> 
+		<iframe src="" />
+		<img src="" />
+		<input src="" />
+		<video src="movie.ogg" controls="controls"> 
+		
 4. post表单请求 
+
+		1. 原始的form表单，直接提交  
+		2. 事件点击，进入JS代码，发起请求  
+
 5. JSON格式请求 
 6. 事件点击触发的Ajax请求 
-
+7. location.href / .open() 
 
 ### 4. DOM XSS环境搭建
 1. document.write直接输出导致的XSS
