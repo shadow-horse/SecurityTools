@@ -17,6 +17,7 @@ class Deldump:
     '''
     def deldumpurls(self,urllists):
         url = {}
+        i = 1
         for oneurl in urllists:
             url_parse = urlparse(oneurl['url'])
             url_params = parse_qs(url_parse.query)
@@ -29,7 +30,9 @@ class Deldump:
                 md5_r = md5_r + "?" + param + "=&"
             md5_str = hashlib.md5(md5_r.encode('utf8')).hexdigest()
             if not (md5_str in url.keys()):
+                oneurl['id'] = i
                 url[md5_str] = oneurl
+                i = i + 1
         
         return url
             
