@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from _socket import timeout
 from spider.DynamicSpider import DynamicSpider
 from tools import Deldump
-
+from scanner import DomxssScanner
 class HrefSpider:
     '''
     初始化参数
@@ -135,10 +135,10 @@ class HrefSpider:
             i = i+1
         return urlinfo
         
-if __name__ == "__main__":
+def test():
     #静态页面访问
     spider = HrefSpider();
-    spider.setUrl("http://127.0.0.1/xss/domxss.html")
+    spider.setUrl("http://127.0.0.1:8082/web/domxss")
     spider.getHtmlText()
     result = spider.getHrefs()
     for a in result:
@@ -146,7 +146,7 @@ if __name__ == "__main__":
     print("================================")
     #等待动态Ajax加载，获取发出的请求
     dspider = DynamicSpider();
-    dspider.setUrl("http://127.0.0.1/xss/domxss.html")
+    dspider.setUrl("http://127.0.0.1:8082/web/domxss")
     dspider.loadAsynHtml()
     dreqlist = dspider.getRequestlists()
     
@@ -171,3 +171,20 @@ if __name__ == "__main__":
     for data in result.keys():
         print("%s : %s" % (data,result[data]))
     print('execute end.')
+
+if __name__ == "__main__":
+    
+    print("begin")
+#     test()
+    domscanner = DomxssScanner.DomxssScanner()
+    payloads = []
+    
+    a = "{\"poc\":\"<script>alert(0);</script>\",\"check\":\"console\"}"
+    b = "{\"poc\":\"<script>alert(0);</script>\",\"check\":\"tag\"}"
+    payloads.append(a)
+    payloads.append(b)
+    url = {'id': 2, 'method': 'GET', 'url': 'http://127.0.0.1:8009/webtest/?default=hello&abc=a', 'postdata': ''}
+    domscanner.setUrl("http://127.0.0.1:8009/webtest/?default=%3Cscript%3Econsole.log(1234);%3C/script%3E")
+    domscanner.setPayloads(payloads)
+    domscanner.dealUrl(url)
+#     domscanner.scanUrl(payloads)
