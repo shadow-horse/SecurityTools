@@ -131,6 +131,7 @@ class DynamicSpider:
                 deljs = self.delNode('input', 'type', 'submit')
                 self.browser.execute_script(deljs)
             except:
+                print("input submit exception")
                 break
         #循环遍历input button
         for input in input_button:
@@ -156,6 +157,7 @@ class DynamicSpider:
                 deljs = self.delNode('input', 'type', 'button')
                 self.browser.execute_script(deljs)
             except:
+                print("input button exception")
                 break
         
         #buttons
@@ -182,6 +184,7 @@ class DynamicSpider:
                 deljs = self.delNode('button', '', '')
                 self.browser.execute_script(deljs)
             except:
+                print("input  buttons")
                 break
     
     '''
