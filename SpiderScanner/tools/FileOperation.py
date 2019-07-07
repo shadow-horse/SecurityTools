@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import json
+from fileinput import filename
 
 #文件异常未处理
 class FileOperaton:
@@ -19,7 +20,7 @@ class FileOperaton:
         for line in fo.readlines():
             index = line.index(":")
             key = line[:index]
-            value = line[index:]
+            value = line[index+1:]
             urllists[key]=value
         fo.close()
         return urllists
@@ -36,5 +37,12 @@ class FileOperaton:
         payloads = []
         for line in fo.readlines():
             payloads.append(line)
-            print(payloads)
-            return payloads
+        return payloads
+    
+    '''
+    写入扫描结果
+    '''
+    def writeDomxssurl(self,url,payload,filename="domxss.urls.txt"):
+        fo = open(filename,'a')
+        fo.write(url+":"+json.dumps(payload)+"\n")
+        fo.close()
