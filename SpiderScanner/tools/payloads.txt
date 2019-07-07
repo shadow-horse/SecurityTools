@@ -1,2 +1,0 @@
-{"poc":"<script>alert(0);</script>","type":"console","verify":"12345678"}
-{"poc":"<ydom>ydom</ydom>","type":"domtag","verify":"ydom"}
