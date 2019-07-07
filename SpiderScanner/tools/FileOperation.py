@@ -5,11 +5,12 @@ import json
 class FileOperaton:
     
     #保存爬取的链接，暂时不考虑写过程的去重
-    def fileWrite(self,filename="spider.urls.txt",data):
+    def fileWrite(self,data,filename="spider.urls.txt"):
         fo = open(filename,"w+")
         for line in data.keys():
             fo.write(line +":"+json.dumps(data[line])+"\n")
-            fo.close()
+        
+        fo.close()
     
     #读取爬虫文件，返回链接对象
     def fileRead(self,filename="spider.urls.txt"):
@@ -20,6 +21,7 @@ class FileOperaton:
             key = line[:index]
             value = line[index:]
             urllists[key]=value
+        fo.close()
         return urllists
     
     #读取payload文件，返回poc
