@@ -9,7 +9,7 @@ from _socket import timeout
 from spider.DynamicSpider import DynamicSpider
 from tools import Deldump
 from scanner import DomxssScanner
-class HrefSpider:
+class StaticSpider:
     '''
     初始化参数
     '''
@@ -61,6 +61,8 @@ class HrefSpider:
             
             if 'action' in attrs:
                 form_value['url'] = self.fillUrl(one_f['action'])
+            else:
+                form_value['url'] = self.fillUrl('')
             if 'method' in attrs:
                 form_value['method'] = one_f['method']
             #获取input组件参数    
@@ -134,10 +136,11 @@ class HrefSpider:
             urlinfo.append(oneurl)
             i = i+1
         return urlinfo
-        
+
+#测试代码        
 def test():
     #静态页面访问
-    spider = HrefSpider();
+    spider = StaticSpider();
     spider.setUrl("http://127.0.0.1:8082/web/domxss")
     spider.getHtmlText()
     result = spider.getHrefs()
@@ -172,8 +175,7 @@ def test():
         print("%s : %s" % (data,result[data]))
     print('execute end.')
 
-if __name__ == "__main__":
-    
+def demoTest():    
     print("begin")
 #     test()
     domscanner = DomxssScanner.DomxssScanner()
