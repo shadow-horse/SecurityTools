@@ -15,11 +15,18 @@ class StaticSpider:
     '''
     def setUrl(self,url):
         self.url = url;
-        self.list = []
+        self.urllists = []
+    
+    def addUrls(self,data):
+        for a in data:
+            self.urllists.append(a)
+    
+    def getUrls(self):
+        return self.urllists
     '''
     此函数用于获取网页的内容
     '''
-    def getHtmlText(self):
+    def parseHtml(self):
         try:
             res = requests.get(self.url,timeout = 6)
             #判断是否HttpError
@@ -28,9 +35,10 @@ class StaticSpider:
             self.htmltext = res.text
             #解析html代码
             self.soup = BeautifulSoup(self.htmltext,'html.parser')
+            
             return res.text
         except:
-            print("getHtmlText 产生异常")
+            print("parseHtml 产生异常")
     '''
     获取href属性链接
     '''
@@ -41,7 +49,9 @@ class StaticSpider:
         for a in a_hrefs:
             self.hreflist.append(a.get('href'))
         
-        self.hreflist = self.formatGetUrl(self.fillUrls(self.hreflist))                    
+        self.hreflist = self.formatGetUrl(self.fillUrls(self.hreflist))   
+        self.addUrls(self.hreflist)                 
+        # 可以不返回
         return self.hreflist
     '''
     获取静态form表单请求
@@ -77,16 +87,18 @@ class StaticSpider:
             if(form_value['url'] != ''):
                 self.formlist.append(form_value)  
                 i = i + 1
+        self.addUrls(self.formlist)
+        # 可以不返回
         return self.formlist
     '''
-    获取src属性链接
+    获取src属性链接，功能暂时不实现
     '''
     def getSrc(self):
         a_srcs = self.soup.find_all('*', attrs={'src':True})
         return a_srcs
     
     '''
-    传入网页内容，进行解析
+    传入网页内容，进行解析，调用该函数，如果需要最好重新设置url，初始化
     '''
     def setHtmltext(self,text):
         self.htmltext = text
@@ -104,6 +116,7 @@ class StaticSpider:
                 continue
             hlist.append(l)
         return hlist
+    
     def fillUrl(self,url):
         host_urlparse = urlparse(self.url)
         l = url.strip()
@@ -118,8 +131,15 @@ class StaticSpider:
             if(host_urlparse.path == ''):
                 l = host_urlparse.scheme + "://" +host_urlparse.netloc + '/' + l
             else:
-                l = host_urlparse.scheme + "://" +host_urlparse.netloc + host_urlparse.path + l
+                # 判断是否以"/"结尾，去除文件名称
+                if(host_urlparse.path.endswith("/")):
+                    l = host_urlparse.scheme + "://" +host_urlparse.netloc + host_urlparse.path + l
+                else:
+                    index = host_urlparse.path.rfind("/")
+                    if(index != -1):
+                        l = host_urlparse.scheme + "://" +host_urlparse.netloc + host_urlparse.path[:index+1]+ l
         return l
+    
     '''
     格式化爬起的URL
     '''
@@ -142,7 +162,7 @@ def test():
     #静态页面访问
     spider = StaticSpider();
     spider.setUrl("http://127.0.0.1:8082/web/domxss")
-    spider.getHtmlText()
+    spider.parseHtml()
     result = spider.getHrefs()
     for a in result:
         print(a)
@@ -154,7 +174,7 @@ def test():
     dreqlist = dspider.getRequestlists()
     
     #页面加载完成后，静态解析页面，爬取链接
-    restext = dspider.getHtmltext()
+    restext = dspider.parseHtml()
     spider.setHtmltext(restext)
     dhreflist = spider.getHrefs()
     dformlist = spider.getFormurls()
