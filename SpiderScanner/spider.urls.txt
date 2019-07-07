@@ -1,0 +1,8 @@
+2448ace6002d041cae1eca6052d065e7:{"id": 1, "method": "GET", "url": "http://127.0.0.1:8080/web/demo/getDemo", "postdata": ""}
+342825d9ff83777aa2b9902044fec6d1:{"id": 2, "method": "GET", "url": "http://127.0.0.1:8080/web/domxss", "postdata": ""}
+f95817f6dcf0f0b7f3da4f72b5e9f8c9:{"id": 3, "method": "GET", "url": "http://127.0.0.1:8080/web/welcome", "postdata": ""}
+0c51ed38f53b0b35be56c92b9fe6a342:{"id": 4, "method": "GET", "url": "http://127.0.0.1:8080/web/getinfo?user=admin", "postdata": ""}
+844d7da912f7c7eb0cd8c5fd8f901e7e:{"id": 5, "method": "GET", "url": "http://127.0.0.1:8080/web/index.html", "postdata": ""}
+f249749fa87ec58e05cdde740338c2c3:{"id": 6, "method": "get", "url": "http://127.0.0.1:8080/web/adduser", "postdata": "username=20%&password=20%&"}
+622dc1d88c8436bc8d09a979706cb7e8:{"id": 7, "method": "GET", "url": "http://127.0.0.1:8080/web/getinfo", "postdata": ""}
+ae3ddc7b86d101c8641d2fe5987532e6:{"id": 8, "method": "GET", "url": "http://127.0.0.1:8080/web/adduser?username=&password=", "postdata": ""}
