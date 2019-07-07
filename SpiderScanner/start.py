@@ -43,9 +43,9 @@ def test1():
     
 
 def test2():
-    url = "http://127.0.0.1:8080/web/index.html"
+    url = "http://127.0.0.1:8080/web/domxss"
     spider = SpiderOperation.SpiderOperation()
-    spider.init(2, url)
+    spider.init(1, url)
     spider.startSpider()
     rurls = spider.getUrls()
     print("spider results:")
@@ -58,9 +58,23 @@ def test2():
     for u in fr.keys():
         print("%s %s" % (u,fr[u]))
     print(("##############END#################"))
-if __name__ == "__main__":
     
-    test2()
+def test3():
+    
+    urls = FileOperation.FileOperaton().fileRead()
+    payloads = FileOperation.FileOperaton().loadPayloads()
+    
+    for url in urls:
+        print(urls[url])
+        dscanner = DomxssScanner.DomxssScanner()
+        dscanner.__init__()
+        dscanner.setPayloads(payloads)
+        dscanner.dealUrl(urls[url])
+    
+    
+if __name__ == "__main__":
+#     test2()
+    test3()
     
 #     domscanner = DomxssScanner.DomxssScanner()
 #     payloads = []
