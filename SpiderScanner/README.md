@@ -140,27 +140,38 @@ https://weibo.com/
 
 ### 6. 测试Demo 
 
-1. 页面加载时自动发起的Ajax请求  
+1. 页面加载时自动发起的Ajax请求   【存在】
 
-		.innerHTML 
+		.innerHTML   
+		http://127.0.0.1:8080/web/getinfo （无法扫描，没有参数）
 		
-2. a href请求链接  
+2. a href请求链接      【存在】
 
-		document.write()
+		document.write()  
+		http://127.0.0.1:8080/web/domxss/?domxss1=domxss1?  
 		
-3. POST表单提交 
+3. POST表单提交   【存在】
 
 		页面跳转，document.write()  
+		http://127.0.0.1:8080/web/adduser, postdata: username=20%&password=20%&  
 		
-4. button点击触发请求
+4. button点击触发请求  【存在】
 
 		1. ajax请求，setTimeout()/eval()，ajax扫描需要基于本页面
 		2. update新接口是直接返回string，然后页面加载执行eval，本次扫描无法扫出此类问题（文本检测），扫描需要基于原始页面，发起该请求的扫描，才能出发执行 
 		3. 获取响应，跳转页面window.location.href
-
-5. 	location.href页面跳转
+	
+		http://127.0.0.1:8080/web/update?domxss4=default  
+		http://127.0.0.1:8080/web/domxss?domxss4=default 
+	
+5. 	location.href页面跳转  【支持】
 	  
 		提供输入框输入网址，通过button发起请求服务端请求，根据响应客户端进行跳转
+		1. window.location.href= 触发漏洞
+		1. window.open 打开新的网页，爬虫抓取不到 【不支持】
+		2. http://127.0.0.1:8080/web/domxss?redirect=http%3A%2F%2F127.0.0.1%3A8080%2Fweb%2F  
+
+		
 
 ### 其它 
 
