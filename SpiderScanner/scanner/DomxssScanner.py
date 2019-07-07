@@ -61,8 +61,6 @@ class DomxssScanner:
         
         self.pagesource = self.browser.page_source 
         self.requestlists = self.browser.get_log('browser')
-        
-        print(self.requestlists)
 #         print(self.pagesource)
     def dealUrl(self,url):
         #GET请求参数处理
@@ -84,7 +82,6 @@ class DomxssScanner:
                 payload = json.loads(payload)
                 temp_params[param][0] = payload["poc"]
                 newurl = self.spliceurl(domain,temp_params)
-                print(newurl)
             
     def spliceurl(self,domain,params):
         url = domain
