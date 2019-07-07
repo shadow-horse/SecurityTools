@@ -91,13 +91,13 @@ class DynamicSpider:
     '''
     获取爬取的链接
     '''
-    def getRequestlists(self):
+    def getUrls(self):
         return self.reqlists
     '''
     解析触发事件，获取发起的响应
     '''
     def getClickButtonsurls(self):
-        print("###################################")
+#         print("###################################")
         self.button_requests = []
         htmltext = self.browser.page_source
         self.soup = BeautifulSoup(htmltext,'html.parser')
@@ -117,7 +117,7 @@ class DynamicSpider:
                 #不需要等待，直接获取发出的请求
                 submit_reqs = filter(lambda x: 'url' in x, self.browser.get_log('browser'))
                 self.addRequestlists(submit_reqs)
-                print(submit_reqs)
+#                 print(submit_reqs)
                 #重写页面内容，返回上一页内容,EOF报错暂时无法解决
                 #redojs = "document.body.innerHTML='';document.write('"+htmltext+"');"
                 #self.browser.execute_script(redojs)
@@ -142,7 +142,7 @@ class DynamicSpider:
                 #不需要等待，直接获取发出的请求
                 submit_reqs = filter(lambda x: 'url' in x, self.browser.get_log('browser'))
                 self.addRequestlists(submit_reqs)
-                print(submit_reqs)
+#                 print(submit_reqs)
                 #重写页面内容，返回上一页内容,EOF报错暂时无法解决
                 #redojs = "document.body.innerHTML='';document.write('"+htmltext+"');"
                 #self.browser.execute_script(redojs)
@@ -168,7 +168,7 @@ class DynamicSpider:
                 #不需要等待，直接获取发出的请求
                 submit_reqs = filter(lambda x: 'url' in x, self.browser.get_log('browser'))
                 self.addRequestlists(submit_reqs)
-                print(submit_reqs)
+#                 print(submit_reqs)
                 #重写页面内容，返回上一页内容,EOF报错暂时无法解决
                 #redojs = "document.body.innerHTML='';document.write('"+htmltext+"');"
                 #self.browser.execute_script(redojs)
