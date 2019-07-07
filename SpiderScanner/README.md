@@ -53,12 +53,31 @@ https://weibo.com/
 
 		实现方式类似Button事件的处理，待梳理补充
 
-5. JSON格式请求 
+5. JSON格式请求    【不支持】
+
+		1. json格式的数据比较特殊，需要额外解析出参数，通过判断请求的application type类型，判断是否是json格式  
+		2. 有些string参数也是json格式，就需要对请求参数进行正则匹配，以便识别这种情况  
+	
 6. 事件点击触发的Ajax请求 
-7. location.href / .open() 
+
+		1. 普通button点击直接发起的请求  【支持】
+		2. 比较复杂的js代码发起的请求，如需要校验，非button标签onclick等触发，存在逻辑判断的   【不支持】 
+		
+7. location.href / .open()   
+
+		1. js代码静态解析出拼接的请求  【不支持】 
+
+8. 解析JS代码抽取请求     
+
+		1. 直接eval执行js代码片段，有可能会触发某些请求  【不支持】
+
+9. GET/POST请求的递归爬取
+
+		1. GET请求   【支持】 
+		2. POST请求  【不支持，重要需要添加】
 
 ### 4. DOM XSS环境搭建
-1. document.write直接输出导致的XSS
+1. document.write直接输出导致的XSS 
 	
 		document.write("<P>"+domxss1 + "</p>");
 		document.write("<a href=\"" +domxss1 + "\">超链接</a>");
@@ -119,7 +138,31 @@ https://weibo.com/
 
 	针对POC的设计，可以在扫描时自动增加URL的hash字段+扫描参数，作为POC的一部分，以便检测出POC时，可以对应是哪个请求和参数发起的
 
-### 6. 其它 
+### 6. 测试Demo 
+
+1. 页面加载时自动发起的Ajax请求  
+
+		.innerHTML 
+		
+2. a href请求链接  
+
+		document.write()
+		
+3. POST表单提交 
+
+		页面跳转，document.write()  
+		
+4. button点击触发请求
+
+		1. ajax请求，setTimeout()/eval()，ajax扫描需要基于本页面
+		2. update新接口是直接返回string，然后页面加载执行eval，本次扫描无法扫出此类问题（文本检测），扫描需要基于原始页面，发起该请求的扫描，才能出发执行 
+		3. 获取响应，跳转页面window.location.href
+
+5. 	location.href页面跳转
+	  
+		提供输入框输入网址，通过button发起请求服务端请求，根据响应客户端进行跳转
+
+### 其它 
 
 1. 预计完成时间  
 2. 支持并发爬取 
