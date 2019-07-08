@@ -16,7 +16,6 @@ class ScanOperation:
         self.payloadnumber = 0
         self.paramsnumbers = 0
         self.seconds = 0
-        print("init")
     '''
     打印扫描剩余时间
     没一条待扫描URL耗时: 1*(poc数量)*参数数量*10秒
@@ -69,7 +68,7 @@ class ScanOperation:
         #开始扫描
         for url in self.urls.keys():
             print("正在扫描：%s" % (self.urls[url]))
-#             self.scanOneurls(self.urls[url])
+            self.scanOneurls(self.urls[url])
             self.updateReqtime(self.urls[url])
     
     '''
@@ -83,11 +82,15 @@ class ScanOperation:
         dscanner.end()
         
                 
-#         self.payloads = payloads
-#         self.
-#         for url in urls.keys():
-#             print(urls[url])
-#             dscanner = DomxssScanner()
-#             dscanner.__init__()
-#             dscanner.setPayloads(payloads)
-#             dscanner.dealUrl(urls[url])
+    '''
+    扫描结果，返回文件保存的内容，文件追加模式
+    '''
+    def getScanresults(self):
+        urls = FileOperation.FileOperaton().readDomxssurl()
+        print("===========================================")
+        print("本次扫描共发现%s处漏洞，详情如下:" % (len(urls)))
+        for d in urls:
+            print(d)
+        print("===========================================")
+        return urls    
+        
