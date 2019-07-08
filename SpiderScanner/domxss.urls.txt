@@ -1,0 +1,2 @@
+http://127.0.0.1:8080/web/domxss?redirect=javascript:console.log(12345678)&:{"poc": "javascript:console.log(12345678)", "type": "console", "verify": "12345678"}
+http://127.0.0.1:8080/web/adduser:{"poc": "<script>alert(0);</script>", "type": "textplain", "verify": "<script>alert(0);"}
