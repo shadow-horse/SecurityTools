@@ -63,14 +63,11 @@ class DomxssScanner:
     GET方式扫描URL
     '''
     def scanGeturl(self,payload,newurl):
-        
         script = "var page = this; page.onConsoleMessage = function(msg) {page.browserLog.push(msg);};"
         self.browser.command_executor._commands['executePhantomScript'] = ('POST', '/session/$sessionId/phantom/execute')
         self.browser.execute('executePhantomScript', {'script': script, 'args': []})
-        
         #检测前抽取参数
-        
-#         self.browser.get(newurl)  
+        self.browser.get(newurl)  
         time.sleep(3) #直接设置等待10s
         
         pagesource = self.browser.page_source 
@@ -99,7 +96,6 @@ class DomxssScanner:
         jquery = open("jquery-3.4.1.min.js", "r").read() 
         self.browser.execute_script(jquery)
         #构造POST请求，打开新的标签页面
-        print(data)
         request_type="'POST'"
         ajax_query = '''
             $.ajax('%s', {
@@ -241,6 +237,7 @@ class DomxssScanner:
                     file = FileOperation.FileOperaton()
                     file.writeDomxssurl(url,payload)
                     print("【domxss】%s:%s" % (url,payload))
+                    break
         #检测dom节点变化
         if(payload['type'] == 'domtag'):
             domtag = payload['verify']
@@ -252,6 +249,7 @@ class DomxssScanner:
                         file = FileOperation.FileOperaton()
                         file.writeDomxssurl(url,payload)
                         print("【domxss】%s:%s" % (url,payload))
+                        break
                 except:
                     print("【error】html parse解析失败")
                     continue    
@@ -262,6 +260,7 @@ class DomxssScanner:
                     file = FileOperation.FileOperaton()
                     file.writeDomxssurl(url,payload)
                     print("【domxss】%s:%s" % (url,payload))
+                    break
                     
             
 #         elif(payload['type'] == 'domtag'):#如果type=domtag，则检测pagesource
