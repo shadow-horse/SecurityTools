@@ -46,3 +46,14 @@ class FileOperaton:
         fo = open(filename,'a')
         fo.write(url+":"+json.dumps(payload)+"\n")
         fo.close()
+        
+    '''
+    读取扫描结果
+    '''
+    def readDomxssurl(self,filename="domxss.urls.txt"):
+        fo = open(filename,'r')
+        urllists = []
+        for line in fo.readlines():
+            urllists.append(line)
+        fo.close()
+        return urllists
