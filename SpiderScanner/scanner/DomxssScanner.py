@@ -14,7 +14,10 @@ from bs4 import BeautifulSoup
 from tools import FileOperation
 
 """
-动态抓取网页内容
+DOM XSS扫描
+问题：
+    1. 未实现post请求的selenium加载执行扫描（主要是写入page内容，但是实验总是报字符错误）
+    2. 基于一条URL扫描所有的payloads，当扫描发现某个参数时，未及时终止（很浪费时间，设置全局变量，break）
 """
 class DomxssScanner:
     def __init__(self):
