@@ -16,8 +16,7 @@ from tools import FileOperation
 """
 DOM XSS扫描
 问题：
-    1. 未实现post请求的selenium加载执行扫描（主要是写入page内容，但是实验总是报字符错误）
-    2. 基于一条URL扫描所有的payloads，当扫描发现某个参数时，未及时终止（很浪费时间，设置全局变量，break）
+     基于一条URL扫描所有的payloads，当扫描发现某个参数时，未及时终止（很浪费时间，设置全局变量，break）
 """
 class DomxssScanner:
     def __init__(self):
@@ -31,6 +30,7 @@ class DomxssScanner:
         self.browser.implicitly_wait(10)
         self.logs = []
         self.pages = []
+        
     def end(self):
         self.browser.close()    
     '''
@@ -83,20 +83,59 @@ class DomxssScanner:
 #         print(self.pagesource)
     '''
     POST方式扫描URL
-    目前没有POST的样例
     '''
     def scanPosturl(self,payload,newurl,data):
         
+        #输出日志
         script = "var page = this; page.onConsoleMessage = function(msg) {page.browserLog.push(msg);};"
         self.browser.command_executor._commands['executePhantomScript'] = ('POST', '/session/$sessionId/phantom/execute')
         self.browser.execute('executePhantomScript', {'script': script, 'args': []})
-        #发起POST请求
+        #发起GET请求，设置同域，最好的链接应该是POST请求的母链接
         self.browser.get(newurl)  
-        js = self.postjs(newurl,data)
-        resp = self.browser.execute_script(js)
         sleep(1)
-        # 此处log无效
+        winhandlers = self.browser.window_handles
+        befhandler = winhandlers[0]
+        #加载执行jquery.js
+        jquery = open("jquery-3.4.1.min.js", "r").read() 
+        self.browser.execute_script(jquery)
+        #构造POST请求，打开新的标签页面
+        print(data)
+        request_type="'POST'"
+        ajax_query = '''
+            $.ajax('%s', {
+            type: %s,
+            data: %s, 
+            headers: { "User-Agent": "Mozilla/5.0" },
+            crossDomain: true,
+            xhrFields: {
+             withCredentials: true
+            },
+            success: function(str_response){var obj = window.open("about:blank");   
+                        obj.document.write(str_response);   }
+            });
+            ''' % (newurl, request_type, data)
+            
+        ajax_query = ajax_query.replace("\n", "")
+
+
+        resp = self.browser.execute_script("return " + ajax_query)
+        time.sleep(2)
+        newhandler = ""
+        winhandlers = self.browser.window_handles
+        for a in winhandlers:
+            if(a != befhandler):
+                newhandler = a 
+        #切换至新的标签页（理论上仅有2个）
+        self.browser.switch_to.window(newhandler)
         logs = self.browser.get_log('browser')
+        log = []
+        for l in logs:
+            ldata = l['message'] 
+            ldata = ldata[:ldata.rfind(" (:)")]
+            log.append(ldata)
+        self.addLog(log)
+        self.addPagecontent(self.browser.page_source)
+        
         self.addPagecontent(resp)
         self.checkPayloads(payload, self.pages,logs, newurl)
         #JS执行页面未变换，失败
@@ -116,7 +155,10 @@ class DomxssScanner:
             self.checkPayloads(payload, self.pages,logs, newurl)
         except:
             print("scanStaicposturl 产生异常")
-        
+    
+    '''
+    Javascript发起Ajax请求
+    '''    
     def postjs(self,url,data):
         js = "var xmlhttp=new XMLHttpRequest();";
         js = js +"xmlhttp.open(\"POST\",\"" + url +"\",false);";
@@ -127,7 +169,6 @@ class DomxssScanner:
         datastr = urllib.parse.urlencode(data)
 #         for d in data.keys():
 #             datastr = datastr + d + "=" + urllib.parse.urlencode(data[d]) + "&"
-        print(datastr)
         js = js + "xmlhttp.send(\"" +datastr+"\");";
         js = js + "return xmlhttp.responseText;";
         return js
@@ -204,13 +245,16 @@ class DomxssScanner:
         if(payload['type'] == 'domtag'):
             domtag = payload['verify']
             for pagesource in pagesources:
-                parse = BeautifulSoup(pagesource,'html.parser')
-                domtags = parse.find_all(domtag)
-                if len(domtags) > 0:
-                    file = FileOperation.FileOperaton()
-                    file.writeDomxssurl(url,payload)
-                    print("【domxss】%s:%s" % (url,payload))
-                    
+                try:
+                    parse = BeautifulSoup(pagesource,'html.parser')
+                    domtags = parse.find_all(domtag)
+                    if len(domtags) > 0:
+                        file = FileOperation.FileOperaton()
+                        file.writeDomxssurl(url,payload)
+                        print("【domxss】%s:%s" % (url,payload))
+                except:
+                    print("【error】html parse解析失败")
+                    continue    
         if(payload['type'] == 'textplain'):
             checkplain = payload['verify']
             for pagesource in pagesources:
