@@ -9,39 +9,6 @@ from spider import SpiderOperation
 from test.test_decimal import file
 from scanner import ScanOperation
 
-def test1():    
-    print("#####################################")
-    
-    a = "acadae"
-    print(a.endswith("a"))
-    
-    
-    url = "http://127.0.0.1:8080/web/index.html"
-    
-    print("############静态爬虫#############")
-    staticspider = StaticSpider.StaticSpider()
-    staticspider.setUrl(url)
-    staticspider.parseHtml()
-    staticspider.getHrefs()
-    staticspider.getFormurls()
-    
-    surls = staticspider.getUrls()
-    
-    for d in surls:
-        print(d)
-    print("##############################")   
-    print("############动态爬虫#############")
-    dynamicspider = DynamicSpider.DynamicSpider()
-    dynamicspider.setUrl(url)
-    dynamicspider.loadAsynHtml()
-    dynamicspider.getClickButtonsurls()
-    durls = dynamicspider.getUrls()
-    
-    for d in durls:
-        print(d) 
-        
-    print("#############END##################")
-    
 
 def spiderURL(url,deep):
     spider = SpiderOperation.SpiderOperation()
@@ -58,21 +25,6 @@ def spiderURL(url,deep):
         print("%s %s" % (u,fr[u]))
     print(("==================================="))
     
-def test3():
-    
-    urls = FileOperation.FileOperaton().fileRead()
-    payloads = FileOperation.FileOperaton().loadPayloads()
-    
-    for url in urls:
-        print(urls[url])
-        dscanner = DomxssScanner.DomxssScanner()
-        dscanner.__init__()
-        dscanner.setPayloads(payloads)
-        dscanner.dealUrl(urls[url])
-        dscanner.end()
-        
-    
- 
 def scannerDomxss():
     scanner = ScanOperation.ScanOperation();
     scanner.startScan()
