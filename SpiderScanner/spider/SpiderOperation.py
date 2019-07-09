@@ -108,6 +108,6 @@ class SpiderOperation:
         
         url = "http://127.0.0.1:8080/web/index.html"
     
-    print("############静态爬虫#############")
+    print("############开始爬取页面#############")
     
     
