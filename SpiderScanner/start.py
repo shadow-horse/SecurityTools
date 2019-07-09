@@ -55,6 +55,5 @@ if __name__ == "__main__":
     deep = 2
     if len(sys.argv) >= 3:
         url = sys.argv[1]
-        deep = sys.argv[2]
-    
+        deep = int(sys.argv[2])
     scanner(url,deep)
