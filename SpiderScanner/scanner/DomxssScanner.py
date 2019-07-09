@@ -133,7 +133,7 @@ class DomxssScanner:
         self.addPagecontent(self.browser.page_source)
         
         self.addPagecontent(resp)
-        self.checkPayloads(payload, self.pages,logs, newurl)
+        self.checkPayloads(payload, self.pages,logs, newurl+json.dumps(data))
         #JS执行页面未变换，失败
     '''
     静态扫描POST请求，selenium发起post请求未验证是否能加载到当前页面
@@ -271,7 +271,11 @@ class DomxssScanner:
     def checkClickButtons(self,payload,newurl):
 #         print("###################################")
         htmltext = self.browser.page_source
-        self.soup = BeautifulSoup(htmltext,'html.parser')
+        try:
+            self.soup = BeautifulSoup(htmltext,'html.parser')
+        except:
+            print("【error】html parser failed: " + newurl)
+            return
         # input button 
         input_button = self.soup.find_all('input', attrs={'type':'button'})
         input_submit = self.soup.find_all('input', attrs={'type':'submit'})
