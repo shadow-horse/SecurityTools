@@ -100,7 +100,11 @@ class DynamicSpider:
 #         print("###################################")
         self.button_requests = []
         htmltext = self.browser.page_source
-        self.soup = BeautifulSoup(htmltext,'html.parser')
+        try:
+            self.soup = BeautifulSoup(htmltext,'html.parser')
+        except:
+            print("【error】html parser failed:function getClickButtonsurls()")
+            return
         # input button 
         input_button = self.soup.find_all('input', attrs={'type':'button'})
         input_submit = self.soup.find_all('input', attrs={'type':'submit'})

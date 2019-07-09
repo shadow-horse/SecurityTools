@@ -39,6 +39,7 @@ class StaticSpider:
             return res.text
         except:
             print("parseHtml 产生异常")
+            return 
     '''
     获取href属性链接
     '''
@@ -102,7 +103,11 @@ class StaticSpider:
     '''
     def setHtmltext(self,text):
         self.htmltext = text
-        self.soup = BeautifulSoup(self.htmltext,'html.parser')
+        try:
+            self.soup = BeautifulSoup(self.htmltext,'html.parser')
+        except:
+            print("【error】html parse failed.")
+            return
     
     '''
     处理拼接返回完整的URL
@@ -120,7 +125,7 @@ class StaticSpider:
     def fillUrl(self,url):
         host_urlparse = urlparse(self.url)
         l = url.strip()
-        if(l.startswith("//")):  # ”//“开头，直接访问域名
+        if(l.startswith("//") or l.startswith("\/\/")):  # ”//“开头，直接访问域名
             l = host_urlparse.scheme+":"+l
         elif(l.startswith("/")): # ”/“开头，是从当前域名的根目录进行访问
             l = host_urlparse.scheme+"://"+host_urlparse.netloc+l
@@ -157,56 +162,4 @@ class StaticSpider:
             i = i+1
         return urlinfo
 
-#测试代码        
-def test():
-    #静态页面访问
-    spider = StaticSpider();
-    spider.setUrl("http://127.0.0.1:8082/web/domxss")
-    spider.parseHtml()
-    result = spider.getHrefs()
-    for a in result:
-        print(a)
-    print("================================")
-    #等待动态Ajax加载，获取发出的请求
-    dspider = DynamicSpider();
-    dspider.setUrl("http://127.0.0.1:8082/web/domxss")
-    dspider.loadAsynHtml()
-    dreqlist = dspider.getRequestlists()
-    
-    #页面加载完成后，静态解析页面，爬取链接
-    restext = dspider.parseHtml()
-    spider.setHtmltext(restext)
-    dhreflist = spider.getHrefs()
-    dformlist = spider.getFormurls()
-    print("================================")
-    
-    #合并两部分内容
-    reqlist = []
-    for a in dhreflist:
-        reqlist.append(a)
-    for a in dreqlist:
-        reqlist.append(a)   
-    for a in dformlist:
-        reqlist.append(a) 
-        
-    delDump = Deldump.Deldump()
-    result = delDump.deldumpurls(reqlist)
-    for data in result.keys():
-        print("%s : %s" % (data,result[data]))
-    print('execute end.')
 
-def demoTest():    
-    print("begin")
-#     test()
-    domscanner = DomxssScanner.DomxssScanner()
-    payloads = []
-    
-    a = "{\"poc\":\"<script>alert(0);</script>\",\"check\":\"console\"}"
-    b = "{\"poc\":\"<script>alert(0);</script>\",\"check\":\"tag\"}"
-    payloads.append(a)
-    payloads.append(b)
-    url = {'id': 2, 'method': 'GET', 'url': 'http://127.0.0.1:8009/webtest/?default=hello&abc=a', 'postdata': ''}
-    domscanner.setUrl("http://127.0.0.1:8009/webtest/?default=%3Cscript%3Econsole.log(1234);%3C/script%3E")
-    domscanner.setPayloads(payloads)
-    domscanner.dealUrl(url)
-#     domscanner.scanUrl(payloads)
