@@ -188,7 +188,7 @@ class DynamicSpider:
                 deljs = self.delNode('button', '', '')
                 self.browser.execute_script(deljs)
             except:
-                print("input  buttons")
+                print("input  buttons exception")
                 break
     
     '''
