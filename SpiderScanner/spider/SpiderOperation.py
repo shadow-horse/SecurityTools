@@ -105,9 +105,6 @@ class SpiderOperation:
         durls = self.dynamicspider.getUrls()
         self.addUrls(durls)
     
-        
-        url = "http://127.0.0.1:8080/web/index.html"
-    
     print("############开始爬取页面#############")
     
     
