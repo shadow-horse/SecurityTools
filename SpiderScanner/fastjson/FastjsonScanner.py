@@ -44,4 +44,6 @@ class FastjsonScanner:
             print("[exception]http request exception " + url)
         
         print("fastjson scan end.")
+
+
         
