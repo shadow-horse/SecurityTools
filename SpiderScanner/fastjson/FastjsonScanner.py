@@ -48,7 +48,7 @@ class FastjsonScanner:
 
 
 if __name__ == '__main__': 
-    domain = "mms.vivo.com.cn" 
+    domain = "mms.com.cn" 
     for i in range(20):
         fs = FastjsonScanner()
         fs.scanner_domain(domain)
