@@ -1,4 +1,6 @@
 *.log
 __pycache__/
 .settings/
-
+.pydevproject
+.metadata/
+*.txt
