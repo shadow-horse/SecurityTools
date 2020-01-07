@@ -10,9 +10,9 @@ from test.test_decimal import file
 from scanner import ScanOperation
 
 
-def spiderURL(url,deep):
+def spiderURL(url,deep,spdomain):
     spider = SpiderOperation.SpiderOperation()
-    spider.init(deep, url)
+    spider.init(deep, url,spdomain)
     spider.startSpider()
     rurls = spider.getUrls()
     fileop = FileOperation.FileOperaton()
@@ -30,8 +30,8 @@ def scannerDomxss():
     scanner.startScan()
     scanner.getScanresults()
     
-def scanner(url,deep):
-    spiderURL(url, deep)
+def scanner(url,deep,spdomain):
+    spiderURL(url, deep,spdomain)
     scannerDomxss()
 '''
 环境配置：
@@ -48,12 +48,23 @@ def scanner(url,deep):
 说明：
     参数1:    url 待爬取的目标URL
     参数2:    deep 爬取的深度
-    运行示例:    python start.py http:www.baidu.com 2
+    参数3:    爬取的域名
+    运行示例:    python start.py http:www.baidu.com 2 baidu.com
 '''       
 if __name__ == "__main__":
-    url = "http://47.104.218.243:8080/web/"
+    url = "http://47.104.218.243/info.html"
     deep = 2
-    if len(sys.argv) >= 3:
+    spdomain = 'www.baidu.com'
+    if len(sys.argv) == 2:
+        url = sys.argv[1]
+    elif len(sys.argv) == 3:
         url = sys.argv[1]
         deep = int(sys.argv[2])
-    scanner(url,deep)
+    elif len(sys.argv) == 4:
+        url = sys.argv[1]
+        deep = int(sys.argv[2])
+        spdomain = sys.argv[3]
+    else:
+        print('test program.......')
+        
+    scanner(url,deep,spdomain)

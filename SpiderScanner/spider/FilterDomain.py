@@ -1,4 +1,7 @@
 #!/usr/bin/python
+'''
+检查域名是否需要过滤
+'''
 from urllib.parse import urlparse
 
 class FilterDomain():
@@ -18,8 +21,3 @@ class FilterDomain():
         else:
             return False
         
-
-if __name__ == '__main__': 
-    fd = FilterDomain()
-    flag = fd.isfilter('http://47.104.218.243/AWDV/login.php:password', '218.243')
-    print(flag)

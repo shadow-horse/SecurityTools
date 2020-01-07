@@ -1,22 +1,23 @@
 #!/usr/bin/python
 
-#!/usr/bin/python
-
 from spider import StaticSpider
 from spider import DynamicSpider
 from scanner import DomxssScanner
 from tools import Deldump
 from tools import FileOperation
+from spider import FilterDomain
 from copy import deepcopy
 from asyncio.tasks import sleep
 import json
+
+
 
 class SpiderOperation:
     
     '''
     初始化
     '''
-    def init(self,deep,url):
+    def init(self,deep,url,specdomain=''):
         self.deep = deep
         self.url = url 
         self.urllists = []   #保存所有的扫描结果
@@ -25,6 +26,7 @@ class SpiderOperation:
         self.urlsnums = 0
         self.lasttime = 0
         self.currentdeep = 0
+        self.specdomain = specdomain  # 指定爬去的域名
     
     '''
     每开始扫描一条URL，则打印一次时间，通过剩余的URL计算剩余时间
@@ -44,7 +46,11 @@ class SpiderOperation:
     添加到下一层链接中
     '''
     def addUrls(self,data):
+        fd = FilterDomain.FilterDomain()
         for d in data:
+            if not fd.isfilter(d['url'], self.specdomain):
+                print('跳过爬取: %s' % (d['url']) )
+                continue
             self.urllists.append(d)
             self.nexturls.append(d['url'])
             if(self.currentdeep < self.deep):
