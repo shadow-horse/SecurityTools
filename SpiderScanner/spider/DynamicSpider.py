@@ -137,8 +137,9 @@ class DynamicSpider:
                 #删除node节点，删除已经被执行过的submit
                 deljs = self.delNode('input', 'type', 'submit')
                 self.browser.execute_script(deljs)
-            except:
+            except Exception as e:
                 print("input submit exception")
+                print(e)
                 break
         #循环遍历input button
         for input in input_button:
