@@ -85,7 +85,10 @@ class DynamicSpider:
                 reqinfo['id'] = id
                 reqinfo['method'] = json_object['method']
                 reqinfo['url'] = json_object['url']
-                reqinfo['postdata'] = json_object['postData']
+                if 'postdata' in json_object.keys():
+                    reqinfo['postdata'] = json_object['postData']
+                else:
+                    reqinfo['postdata'] = ''
             self.reqlists.append(reqinfo)
             id = id + 1    
     '''
