@@ -4,3 +4,4 @@ __pycache__/
 .pydevproject
 .metadata/
 *.txt
+SpiderScanner/.pydevproject
