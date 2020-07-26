@@ -5,3 +5,6 @@ __pycache__/
 .metadata/
 *.txt
 SpiderScanner/.pydevproject
+.pydevproject
+.recommenders/
+
