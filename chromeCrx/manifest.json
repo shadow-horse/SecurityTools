@@ -14,7 +14,10 @@
     "default_popup": "popup.html"
   },
   "devtools_page": "index.html",
-  "background": { "scripts": ["background.js"] },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
 
   "permissions": [
     "storage",

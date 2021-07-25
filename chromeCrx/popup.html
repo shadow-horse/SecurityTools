@@ -4,34 +4,52 @@
     <meta charset="utf-8"/>
     <title>自动化安全扫描平台流量录制</title>
     <link rel="stylesheet" href="./switch.css" type="text/css">
-    <script src="./jquery.js"></script>
-
 
 </head>
-<body style="width:500px;min-height:100px;">
+<body style="width:500px;min-height:120px;" bgcolor="#D1E9E9">
 
-<nobr align="center">开关</nobr>
-<div class="testswitch">
-    <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" onclick="onClickHander(this)">
-    <label class="testswitch-label" for="onoffswitch">
-        <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
-        <span class="testswitch-switch"></span>
-    </label>
-</div>
-<br/>
-<br/>
-<br/>
-<div id="b">
-<form  method="post" >
-    任务名称:<input  type="text"  name="myName" class="a"/><br><br>
-    域&nbsp;&nbsp; &nbsp; &nbsp; 名:<input  type="password"  name="pass" class="a" /><br/><br/>
-    <button>提交</button>
-</form>
-<div>
+    <table width="100%" border="0" frame=void>
 
-<!--
-<script type="javascript" src="./popup.js"></script>
--->
-<script src="./buttonclick.js"></script>
+
+        <tr>
+            <th>流量录制开关：</th>
+
+            <th>
+                <div class="testswitch">
+                    <input class="testswitch-checkbox" id="onoffswitch" name="onoffswitch" type="checkbox" onclick="onClickHander(this)">
+
+                    <label class="testswitch-label" for="onoffswitch">
+                        <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
+                        <span class="testswitch-switch"></span>
+                    </label>
+                    </input>
+                </div>
+            </th>
+        </tr>
+
+    </table>
+
+    <br/>
+    <div id="b">
+        <p> 请配置自动化漏洞扫描任务信息： </p>
+
+            任务名称:&nbsp;<input id="assmname" type="text" name="myName" class="a"/><br><br>
+            域&nbsp;&nbsp; &nbsp; &nbsp;名:&nbsp;<input id="assmdomain" type="password" name="pass" class="a"/><br/><br/>
+            <button class="button-success" onclick="saveassminfo()">保存</button>
+
+
+    <div>
+    <br/>
+    <div>
+        <P>流量录制完成之后，请执行自动化漏洞扫描任务！</P>
+        <button class="button-error">执行扫描任务</button>
+        <a href="" id="assmreport">点击查看扫描报告~</a>
+    </div>
+
+        <br/><br/><br/>
+        <!--
+        <script type="javascript" src="./popup.js"></script>
+        -->
+        <script src="./buttonclick.js"></script>
 </body>
 </html>

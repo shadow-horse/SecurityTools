@@ -1,17 +1,60 @@
+.button-success,
+
+.button-error,
+
+.button-warning,
+
+.button-secondary {
+color: white;
+
+border-radius: 10px;
+
+text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+}
+
+.button-success {
+background: rgb(28, 184, 65); /* this is a green */
+margin-left: 60%;
+width: 80px;
+height: 28px;
+}
+
+.button-error {
+background: rgb(202, 60, 60); /* this is a maroon */
+margin-left: 10%;
+width: 120px;
+height: 28px;
+
+}
+
+.button-warning {
+background: rgb(223, 117, 20); /* this is an orange */
+
+}
+
+.button-secondary {
+background: rgb(66, 184, 221); /* this is a light blue */
+
+}
+
+
 .a{
      width: 300px;
-     height: 30px;
+     height: 28px;
 }
 
 #b{
-     width: 500px;
-     border: 1px solid red;
-     text-align: right;        /*右对齐*/·
+     width: 400px;
+     border: 1px ;
+     text-align: center;        /*右对齐*/·
+
+
 }
 
 .testswitch {
     position: relative;
-    float: right;
+    float: left;
     width: 90px;
     margin: 0;
     -webkit-user-select:none;
