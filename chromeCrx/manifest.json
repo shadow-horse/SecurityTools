@@ -13,14 +13,14 @@
     "default_title": "流量录制",
     "default_popup": "popup.html"
   },
-  "devtools_page": "index.html",
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
 
   "permissions": [
     "storage",
+    "webRequest",
     "http://*/*",
     "https://*/*"
   ],
